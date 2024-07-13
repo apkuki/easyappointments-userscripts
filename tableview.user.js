@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Reload Page and Click Buttons on Specific URL
 // @namespace    http://tampermonkey.net/
-// @version      1.6
-// @description  Reloads the page periodically, hides specific elements, changes CSS, and clicks specific buttons on a specific webpage with a minimal delay after page load
+// @version      1.7
+// @description  Reloads the page periodically, hides specific elements, changes CSS, clicks specific buttons on a specific webpage with a minimal delay after page load, and adds an "X" button to the top right corner linking to a specified URL
 // @author       Andreas Kundert
 // @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/tableview.user.js
 // @updateURL    https://github.com/apkuki/easyappointments-userscripts/raw/main/tableview.user.js
@@ -61,6 +61,25 @@
         }
     }
 
+    // Function to add "X" button
+    function addCloseButton() {
+        const closeButton = document.createElement('button');
+        closeButton.textContent = 'X';
+        closeButton.style.position = 'fixed';
+        closeButton.style.top = '10px';
+        closeButton.style.right = '10px';
+        closeButton.style.zIndex = '1000';
+        closeButton.style.backgroundColor = 'red';
+        closeButton.style.color = 'white';
+        closeButton.style.border = 'none';
+        closeButton.style.padding = '10px';
+        closeButton.style.cursor = 'pointer';
+        closeButton.onclick = function() {
+            window.location.href = 'https://easyappoint.tail60ade3.ts.net/index.php/calendar';
+        };
+        document.body.appendChild(closeButton);
+    }
+
     // Hide elements with specified IDs
     hideElementById('header');
     hideElementById('calendar-filter');
@@ -101,9 +120,9 @@
         await delayExecution(10); // Wait for 10 milliseconds
         replaceSlashWithDotInH5();
         clickButtonsByClass('fc-listDay-button');
+        addCloseButton(); // Add the close button
     });
 
     // Reload the page every 60 seconds (60000 milliseconds)
     reloadPagePeriodically(60000);
 })();
-
