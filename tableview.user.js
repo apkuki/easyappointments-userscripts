@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Uncluttered Easyappointment Table View
 // @namespace    http://tampermonkey.net/
-// @version      1.7.2
+// @version      1.7.3
 // @description  Reloads the page periodically, hides specific elements, changes CSS of Easyappointment Table View.
 // @author       Andreas Kundert
 // @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/tableview.user.js
@@ -72,8 +72,9 @@
         closeButton.style.backgroundColor = 'lightgrey';
         closeButton.style.color = 'black';
         closeButton.style.border = 'none';
-        closeButton.style.width = '20px';
-        closeButton.style.height = '20px';
+        closeButton.style.width = '40px';
+        closeButton.style.height = '40px';
+        closeButton.style.padding = '20px';
         closeButton.style.cursor = 'pointer';
         closeButton.onclick = function() {
             window.location.href = 'https://easyappoint.tail60ade3.ts.net/index.php/calendar';
