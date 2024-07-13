@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Reload Page and Click Buttons on Specific URL
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      1.6
 // @description  Reloads the page periodically, hides specific elements, changes CSS, and clicks specific buttons on a specific webpage with a minimal delay after page load
 // @author       Andreas Kundert
 // @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/tableview.user.js
@@ -63,6 +63,7 @@
     hideElementById('header');
     hideElementById('calendar-filter');
     hideElementById('calendar-toolbar');
+    hideElementById('footer');
 
     // Hide elements with specified classes
     hideElementsByClass('dropdown');
