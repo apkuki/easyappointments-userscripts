@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Reload Page and Click Buttons on Specific URL
+// @name         Uncluttered Easyappointment Table View
 // @namespace    http://tampermonkey.net/
 // @version      1.7
-// @description  Reloads the page periodically, hides specific elements, changes CSS, clicks specific buttons on a specific webpage with a minimal delay after page load, and adds an "X" button to the top right corner linking to a specified URL
+// @description  Reloads the page periodically, hides specific elements, changes CSS of Easyappointment Table View.
 // @author       Andreas Kundert
 // @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/tableview.user.js
 // @updateURL    https://github.com/apkuki/easyappointments-userscripts/raw/main/tableview.user.js
