@@ -3,7 +3,9 @@
 // @namespace    http://tampermonkey.net/
 // @version      1.5
 // @description  Reloads the page periodically, hides specific elements, changes CSS, and clicks specific buttons on a specific webpage with a minimal delay after page load
-// @author       Your Name
+// @author       Andreas Kundert
+// @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/tableview.user.js
+// @updateURL    https://github.com/apkuki/easyappointments-userscripts/raw/main/tableview.user.js
 // @match        https://easyappoint.tail60ade3.ts.net/index.php/calendar?view=table
 // @grant        GM_addStyle
 // ==/UserScript==
