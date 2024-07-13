@@ -18,6 +18,7 @@
         const element = document.getElementById(id);
         if (element) {
             element.style.display = 'none';
+            element.style.visibility = 'hidden';
         }
     }
 
@@ -26,6 +27,7 @@
         const elements = document.getElementsByClassName(className);
         for (let i = 0; i < elements.length; i++) {
             elements[i].style.display = 'none';
+            elements[i].style.visibility = 'hidden';
         }
     }
 
