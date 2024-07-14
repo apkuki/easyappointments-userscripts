@@ -118,7 +118,7 @@
     // Additional CSS styling for #calendar .fc-header-toolbar
     GM_addStyle(`
         #calendar .fc-event {
-            font-size: 16px;
+            font-size: 13px;
         }
     `);
 
