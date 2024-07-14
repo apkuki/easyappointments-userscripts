@@ -72,7 +72,7 @@
         closeButton.style.backgroundColor = 'lightgrey';
         closeButton.style.color = 'black';
         closeButton.style.border = 'none';
-        closeButton.style.padding = '20px 20px 20px 20px';
+        closeButton.style.padding = '15px 20px 15px 20px';
         closeButton.style.cursor = 'pointer';
         closeButton.onclick = function() {
             window.location.href = 'https://easyappoint.tail60ade3.ts.net/index.php/calendar';
