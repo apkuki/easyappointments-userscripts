@@ -115,6 +115,13 @@
         }
     `);
 
+    // Additional CSS styling for #calendar .fc-header-toolbar
+    GM_addStyle(`
+        #calendar .fc-event {
+            font-size: 16px;
+        }
+    `);
+
     // Additional CSS styling for provider-column with media query
     GM_addStyle(`
         @media (min-width: 768px) {
