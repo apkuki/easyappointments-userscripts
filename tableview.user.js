@@ -75,7 +75,7 @@
         closeButton.style.padding = '15px 20px 15px 20px';
         closeButton.style.cursor = 'pointer';
         closeButton.onclick = function() {
-            window.location.href = 'https://easyappoint.tail60ade3.ts.net/index.php/calendar';
+            window.location.href = '../calendar';
         };
         document.body.appendChild(closeButton);
     }
