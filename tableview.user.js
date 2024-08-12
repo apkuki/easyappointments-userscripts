@@ -75,7 +75,7 @@
         closeButton.style.padding = '15px 20px 15px 20px';
         closeButton.style.cursor = 'pointer';
         closeButton.onclick = function() {
-            window.location.href = '../calendar';
+            window.location.href = '../index.php/calendar';
         };
         document.body.appendChild(closeButton);
     }
