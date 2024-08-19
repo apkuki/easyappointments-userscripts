@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Uncluttered Easyappointment Table View
 // @namespace    http://tampermonkey.net/
-// @version      1.7.8
+// @version      1.7.9
 // @description  Reloads the page periodically, hides specific elements, changes CSS of Easyappointment Table View.
 // @author       Andreas Kundert
 // @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/tableview.user.js
@@ -31,25 +31,6 @@
         }
     }
 
-    // Function to click buttons by class name
-    function clickButtonsByClass(className) {
-        const buttons = document.getElementsByClassName(className);
-        for (let i = 0; i < buttons.length; i++) {
-            buttons[i].click();
-        }
-    }
-
-    // Function to reload the page periodically
-    function reloadPagePeriodically(interval) {
-        setInterval(() => {
-            location.reload();
-        }, interval);
-    }
-
-    // Function to delay execution
-    function delayExecution(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
 
     // Function to replace "/" with "." in h5 elements
     function replaceSlashWithDotInH5() {
@@ -87,7 +68,7 @@
     hideElementById('footer');
 
     // Hide elements with specified classes
-    hideElementsByClass('dropdown');
+    //hideElementsByClass('.dropdown.d-sm-inline-block');
     hideElementsByClass('d-sm-inline-block');
     hideElementsByClass('calendar-header');
     hideElementsByClass('fc-button-group');
@@ -133,12 +114,8 @@
 
     // Wait for 10 milliseconds after page load and then click buttons with class "fc-listDay-button"
     window.addEventListener('load', async function() {
-        await delayExecution(10); // Wait for 10 milliseconds
         replaceSlashWithDotInH5();
-        clickButtonsByClass('fc-listDay-button');
         addCloseButton(); // Add the close button
     });
 
-    // Reload the page every 60 seconds (60000 milliseconds)
-    reloadPagePeriodically(60000);
 })();
