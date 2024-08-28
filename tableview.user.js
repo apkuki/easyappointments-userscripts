@@ -107,7 +107,7 @@
     GM_addStyle(`
         @media (min-width: 768px) {
             #calendar .provider-column {
-                width: 280px !important;
+                width: 290px !important;
             }
         }
     `);
