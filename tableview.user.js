@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Uncluttered Easyappointment Table View
 // @namespace    http://tampermonkey.net/
-// @version      1.8.0
+// @version      1.8.1
 // @description  Reloads the page periodically, hides specific elements, changes CSS of Easyappointment Table View.
 // @author       Andreas Kundert
 // @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/tableview.user.js
@@ -78,6 +78,7 @@
         h5 {
             font-size: 1.5rem;
             font-weight: bold;
+            margin-top: 15px;
         }
     `);
 
@@ -107,7 +108,7 @@
     GM_addStyle(`
         @media (min-width: 768px) {
             #calendar .provider-column {
-                width: 290px !important;
+                min-width: 290px !important;
             }
         }
     `);
