@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Uncluttered Easyappointment Table View
 // @namespace    http://tampermonkey.net/
-// @version      1.8.2
+// @version      1.8.3
 // @description  Reloads the page periodically, hides specific elements, changes CSS of Easyappointment Table View.
 // @author       Andreas Kundert
 // @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/tableview.user.js
@@ -30,7 +30,6 @@
             elements[i].style.visibility = 'hidden';
         }
     }
-
 
     // Function to replace "/" with "." in h5 elements
     function replaceSlashWithDotInH5() {
@@ -61,6 +60,33 @@
         document.body.appendChild(closeButton);
     }
 
+    // Function to hide the cursor and show it only on mouse movement
+    function initializeCursorVisibility() {
+        let timeout;
+
+        function showCursor() {
+            GM_addStyle(`
+                * {
+                    cursor: default !important;
+                }
+            `);
+
+            clearTimeout(timeout);
+            timeout = setTimeout(hideCursor, 2000);
+        }
+
+        function hideCursor() {
+            GM_addStyle(`
+                * {
+                    cursor: none !important;
+                }
+            `);
+        }
+
+        document.addEventListener('mousemove', showCursor);
+        timeout = setTimeout(hideCursor, 2000);
+    }
+
     // Hide elements with specified IDs
     hideElementById('header');
     hideElementById('calendar-filter');
@@ -68,7 +94,6 @@
     hideElementById('footer');
 
     // Hide elements with specified classes
-    //hideElementsByClass('.dropdown.d-sm-inline-block');
     hideElementsByClass('d-sm-inline-block');
     hideElementsByClass('calendar-header');
     hideElementsByClass('fc-button-group');
@@ -79,7 +104,7 @@
             margin-left: 15px;
         }
     `);
-    
+
     // CSS styling for H5 element
     GM_addStyle(`
         h5 {
@@ -104,7 +129,7 @@
         }
     `);
 
-    // Additional CSS styling for #calendar .fc-header-toolbar
+    // Additional CSS styling for #calendar .fc-event
     GM_addStyle(`
         #calendar .fc-event {
             font-size: 13px;
@@ -120,10 +145,11 @@
         }
     `);
 
-    // Wait for 10 milliseconds after page load and then click buttons with class "fc-listDay-button"
+    // Wait for 10 milliseconds after page load and then perform actions
     window.addEventListener('load', async function() {
         replaceSlashWithDotInH5();
         addCloseButton(); // Add the close button
+        initializeCursorVisibility(); // Initialize cursor visibility control
     });
 
 })();
