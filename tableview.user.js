@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Uncluttered Easyappointment Table View
 // @namespace    http://tampermonkey.net/
-// @version      1.8.7
+// @version      1.8.8
 // @description  Reloads the page periodically, hides specific elements, changes CSS of Easyappointment Table View.
 // @author       Andreas Kundert
 // @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/tableview.user.js
@@ -29,17 +29,6 @@
             elements[i].style.display = 'none';
             elements[i].style.visibility = 'hidden';
         }
-    }
-
-    // Function to hide specific div inside aria-hidden td
-    function hideBreakEventInAriaHiddenTd() {
-        const tds = document.querySelectorAll('td[aria-hidden="true"]');
-        tds.forEach(td => {
-            const breakDiv = td.querySelector('div.event.unavailability.break');
-            if (breakDiv) {
-                breakDiv.style.display = 'none';
-            }
-        });
     }
 
     // Function to replace "/" with "." in h5 elements
@@ -116,6 +105,13 @@
     hideElementsByClass('calendar-header');
     hideElementsByClass('fc-button-group');
 
+    // CSS styling for Breaks
+    GM_addStyle(`
+        #calendar .calendar-view .date-column .provider-column .event.unavailability {
+            display: none;
+        }
+    `);
+
     // CSS styling for #calendar .calendar-view
     GM_addStyle(`
         #calendar .calendar-view {
@@ -168,7 +164,6 @@
         replaceSlashWithDotInH5();
         addCloseButton(); // Add the close button
         initializeCursorVisibility(); // Initialize cursor visibility control
-        hideBreakEventInAriaHiddenTd(); // Hide break events inside aria-hidden tds
         reloadPagePeriodically(); // Start periodic page reload
     });
 
