@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Uncluttered Easyappointment Table View
 // @namespace    http://tampermonkey.net/
-// @version      1.9.5
+// @version      1.9.6
 // @description  Reloads the page periodically, hides specific elements, changes CSS of Easyappointment Table View.
 // @author       Andreas Kundert
 // @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/tableview.user.js
@@ -87,11 +87,11 @@
         timeout = setTimeout(hideCursor, 2000);
     }
 
-    // Function to reload the page every 60 minutes
+    // Function to hard reload the page every 30 minutes
     function reloadPagePeriodically() {
         setTimeout(function() {
             location.reload();
-        }, 3600000); // 3600000 ms = 60 minutes
+        }, 1800000); // 1800000 ms = 30 minutes
     }
 
     // Hide elements with specified IDs
