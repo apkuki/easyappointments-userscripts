@@ -94,6 +94,14 @@
         }, 3600000); // 3600000 ms = 60 minutes
     }
 
+    // Function to set the height of the element with specific class
+    function setHeightForCalendarWrapper() {
+    const elements = document.getElementsByClassName('calendar-wrapper fc fc-media-screen fc-direction-ltr fc-theme-standard');
+    for (let i = 0; i < elements.length; i++) {
+        elements[i].style.height = '1000px';
+        }
+    }
+
     // Hide elements with specified IDs
     hideElementById('header');
     hideElementById('calendar-filter');
@@ -172,6 +180,7 @@
         addCloseButton(); // Add the close button
         initializeCursorVisibility(); // Initialize cursor visibility control
         reloadPagePeriodically(); // Start periodic page reload
+        setHeightForCalendarWrapper(); // Set height for calendar wrapper element
     });
 
 })();
