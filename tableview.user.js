@@ -161,7 +161,7 @@
 
     // Additional CSS styling for calendar-wrapper with media query
     GM_addStyle(`
-            #calendar fc {
+          .fc {
                 min-height: 1000px !important;
         }
     `);
