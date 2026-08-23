@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Uncluttered Easyappointment List View
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
+// @version      1.0.1
 // @description  Reloads the page every 5 minutes, hides header and controls, shows X button for Easyappointment List View.
 // @author       Andreas Kundert
 // @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/listview.user.js
@@ -58,6 +58,31 @@
             window.location.href = '../index.php/calendar';
         };
         document.body.appendChild(closeButton);
+    }
+
+    // Function to add a timestamp display showing last reload time
+    function addReloadTimestamp() {
+        const timestamp = document.createElement('div');
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('de-CH');
+        
+        timestamp.textContent = `Geladen: ${timeString}`;
+        timestamp.style.position = 'fixed';
+        timestamp.style.top = '10px';
+        timestamp.style.left = '10px';
+        timestamp.style.zIndex = '1000';
+        timestamp.style.backgroundColor = 'lightgrey';
+        timestamp.style.color = 'black';
+        timestamp.style.padding = '5px 10px';
+        timestamp.style.fontSize = '12px';
+        timestamp.style.borderRadius = '3px';
+        document.body.appendChild(timestamp);
+        
+        // Fade out after 10 seconds
+        setTimeout(() => {
+            timestamp.style.transition = 'opacity 2s';
+            timestamp.style.opacity = '0';
+        }, 10000);
     }
 
     // Function to hide the cursor and show it only on mouse movement
@@ -170,6 +195,7 @@
     window.addEventListener('load', async function() {
         replaceSlashWithDotInH5();
         addCloseButton(); // Add the close button
+        addReloadTimestamp(); // Show reload timestamp
         initializeCursorVisibility(); // Initialize cursor visibility control
         reloadPagePeriodically(); // Start periodic page reload (every 5 minutes)
     });
