@@ -68,8 +68,8 @@
         
         timestamp.textContent = `Geladen: ${timeString}`;
         timestamp.style.position = 'fixed';
-        timestamp.style.top = '10px';
-        timestamp.style.left = '10px';
+        timestamp.style.bottom = '10px';
+        timestamp.style.right = '10px';
         timestamp.style.zIndex = '1000';
         timestamp.style.backgroundColor = 'lightgrey';
         timestamp.style.color = 'black';
