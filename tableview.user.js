@@ -1,11 +1,11 @@
-// ==UserScript==
+// ==/UserScript==
 // @name         Uncluttered Easyappointment Table View
 // @namespace    http://tampermonkey.net/
-// @version      1.9.6
-// @description  Reloads the page periodically, hides specific elements, changes CSS of Easyappointment Table View.
+// @version      1.9.7
+// @description  Reloads the page periodically, hides specific elements, changes CSS of Easyappointment Table View and toggles List view.
 // @author       Andreas Kundert
-// @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/tableview.user.js
-// @updateURL    https://github.com/apkuki/easyappointments-userscripts/raw/main/tableview.user.js
+// @downloadURL  https://github.com
+// @updateURL    https://github.com
 // @match        https://physio.weltklassezuerich.ch/index.php/calendar?view=table
 // @grant        GM_addStyle
 // ==/UserScript==
@@ -28,6 +28,14 @@
         for (let i = 0; i < elements.length; i++) {
             elements[i].style.display = 'none';
             elements[i].style.visibility = 'hidden';
+        }
+    }
+
+    // New Function: Finds and clicks the list view button even when hidden
+    function clickListButton() {
+        const listButton = document.querySelector('.fc-listDay-button');
+        if (listButton) {
+            listButton.click();
         }
     }
 
@@ -94,16 +102,15 @@
         }, 1800000); // 1800000 ms = 30 minutes
     }
 
-    // Hide elements with specified IDs
+    // 1. STYLING & HIDING FIRST (Elements are hidden instantly via CSS/JS)
     hideElementById('header');
     hideElementById('calendar-filter');
     hideElementById('calendar-toolbar');
     hideElementById('footer');
 
-    // Hide elements with specified classes
     hideElementsByClass('d-sm-inline-block');
     hideElementsByClass('calendar-header');
-    hideElementsByClass('fc-button-group');
+    hideElementsByClass('fc-button-group'); // This hides the button container first
 
     // CSS styling for Breaks
     GM_addStyle(`
@@ -166,12 +173,13 @@
         }
     `);
 
-    // Wait for 10 milliseconds after page load and then perform actions
+    // 2. ACTIONS AFTER LOAD (Clicking the button while it is hidden)
     window.addEventListener('load', async function() {
         replaceSlashWithDotInH5();
-        addCloseButton(); // Add the close button
-        initializeCursorVisibility(); // Initialize cursor visibility control
-        reloadPagePeriodically(); // Start periodic page reload
+        addCloseButton(); 
+        clickListButton();            // Activates the "Liste" view via automated click
+        initializeCursorVisibility(); 
+        reloadPagePeriodically(); 
     });
 
 })();
