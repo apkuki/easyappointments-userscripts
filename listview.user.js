@@ -154,10 +154,10 @@
         }
     `);
 
-    // Zoom to 150% for 4K displays
+    // Zoom to 125% for 4K displays
     GM_addStyle(`
         body {
-            zoom: 150%;
+            zoom: 125%;
         }
     `);
 
