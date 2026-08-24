@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Uncluttered Easyappointment List View
 // @namespace    http://tampermonkey.net
-// @version      1.2.0
-// @description  Optimized auto-reloads calendar page every 5 minutes, hides header, and handles cursor visibility performance-friendly.
+// @version      1.4.0
+// @description  Fast 60s AJAX refresh with an automatic 5-minute full page reload safety fallback if the refresh button is missing.
 // @author       Andreas Kundert
 // @downloadURL  https://github.com
 // @updateURL    https://github.com
@@ -60,11 +60,10 @@
         document.body.appendChild(closeButton);
     }
 
-    // PERFORMANCE OPTIMIZATION: Toggle class on body instead of injecting styles repeatedly
+    // Toggle class on body instead of injecting styles repeatedly
     function initializeCursorVisibility() {
         let timeout;
 
-        // Inject the classes once at start
         GM_addStyle(`
             body.hide-cursor, body.hide-cursor * {
                 cursor: none !important;
@@ -80,7 +79,6 @@
         }
 
         function showCursor() {
-            // Only update DOM if necessary
             if (!document.body.classList.contains('show-cursor')) {
                 document.body.classList.remove('hide-cursor');
                 document.body.classList.add('show-cursor');
@@ -90,18 +88,46 @@
             timeout = setTimeout(hideCursor, 2000);
         }
 
-        // Listen for mouse movement
         document.addEventListener('mousemove', showCursor);
-        
-        // Initial state
         timeout = setTimeout(hideCursor, 2000);
     }
 
-    // Function to hard reload the page every 5 minutes
-    function reloadPagePeriodically() {
-        setTimeout(function() {
-            location.reload();
-        }, 300000); // 300000 ms = 5 minutes
+    // DUAL-REFRESH LOGIC: Fast AJAX with full page reload backup
+    function setupSmartRefresh() {
+        let lastSuccessfulAjaxTime = Date.now();
+
+        // 1. Fast AJAX Refresh Loop (Runs every 60 seconds)
+        setInterval(function() {
+            const reloadBtn = document.getElementById('reload-appointments');
+            
+            if (reloadBtn) {
+                // Dispatch complete native pointer interaction chain
+                const mousedownEvent = new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window });
+                const mouseupEvent = new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window });
+                const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true, view: window });
+
+                reloadBtn.dispatchEvent(mousedownEvent);
+                reloadBtn.dispatchEvent(mouseupEvent);
+                reloadBtn.dispatchEvent(clickEvent);
+                
+                // Mark AJAX attempt as active
+                lastSuccessfulAjaxTime = Date.now();
+
+                // Format text shortly after data loaded into DOM
+                setTimeout(replaceSlashWithDotInH5, 1500);
+            }
+        }, 60000); // 60000 ms = 60 seconds
+
+        // 2. Hard Fallback Loop (Checks every 10 seconds, reloads after 5 minutes of no AJAX)
+        setInterval(function() {
+            const timeSinceLastAjax = Date.now() - lastSuccessfulAjaxTime;
+            const reloadBtn = document.getElementById('reload-appointments');
+
+            // Fallback triggers if the button disappeared OR if the AJAX fails to fire for 5 minutes
+            if (!reloadBtn || timeSinceLastAjax >= 300000) {
+                location.reload();
+            }
+        }, 10000); // Check fallback status every 10 seconds
     }
 
     // Hide elements with specified IDs
@@ -188,7 +214,7 @@
         replaceSlashWithDotInH5();
         addCloseButton(); 
         initializeCursorVisibility(); 
-        reloadPagePeriodically(); 
+        setupSmartRefresh(); // Active dual-refresh fallback engine
     });
 
 })();
