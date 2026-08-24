@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Uncluttered Easyappointment List View
 // @namespace    http://tampermonkey.net/
-// @version      1.1.0
+// @version      1.1.1
 // @description  Auto-reloads calendar data every 60 seconds via internal app reload, hides header and controls, shows X button for Easyappointment List View.
 // @author       Andreas Kundert
 // @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/listview.user.js
@@ -121,6 +121,13 @@
     GM_addStyle(`
         #calendar .calendar-view {
             margin-left: 15px;
+        }
+    `);
+
+    // Zoom to 150% for 4K displays
+    GM_addStyle(`
+        body {
+            zoom: 150%;
         }
     `);
 
