@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Uncluttered Easyappointment List View
-// @namespace    http://tampermonkey.net/
-// @version      1.1.2
-// @description  Auto-reloads calendar page every 60 seconds via page reload, hides header and controls, shows X button for Easyappointment List View.
+// @namespace    http://tampermonkey.net
+// @version      1.2.0
+// @description  Optimized auto-reloads calendar page every 5 minutes, hides header, and handles cursor visibility performance-friendly.
 // @author       Andreas Kundert
-// @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/listview.user.js
-// @updateURL    https://github.com/apkuki/easyappointments-userscripts/raw/main/listview.user.js
-// @match        https://physio.weltklassezuerich.ch/index.php/calendar?view=list
+// @downloadURL  https://github.com
+// @updateURL    https://github.com
+// @match        https://weltklassezuerich.ch
 // @grant        GM_addStyle
 // ==/UserScript==
 
@@ -52,7 +52,7 @@
         closeButton.style.backgroundColor = 'lightgrey';
         closeButton.style.color = 'black';
         closeButton.style.border = 'none';
-        closeButton.style.padding = '15px 20px 15px 20px';
+        closeButton.style.padding = '15px 20px';
         closeButton.style.cursor = 'pointer';
         closeButton.onclick = function() {
             window.location.href = '../index.php/calendar';
@@ -60,30 +60,40 @@
         document.body.appendChild(closeButton);
     }
 
-    // Function to hide the cursor and show it only on mouse movement
+    // PERFORMANCE OPTIMIZATION: Toggle class on body instead of injecting styles repeatedly
     function initializeCursorVisibility() {
         let timeout;
 
+        // Inject the classes once at start
+        GM_addStyle(`
+            body.hide-cursor, body.hide-cursor * {
+                cursor: none !important;
+            }
+            body.show-cursor, body.show-cursor * {
+                cursor: default !important;
+            }
+        `);
+
+        function hideCursor() {
+            document.body.classList.remove('show-cursor');
+            document.body.classList.add('hide-cursor');
+        }
+
         function showCursor() {
-            GM_addStyle(`
-                * {
-                    cursor: default !important;
-                }
-            `);
+            // Only update DOM if necessary
+            if (!document.body.classList.contains('show-cursor')) {
+                document.body.classList.remove('hide-cursor');
+                document.body.classList.add('show-cursor');
+            }
 
             clearTimeout(timeout);
             timeout = setTimeout(hideCursor, 2000);
         }
 
-        function hideCursor() {
-            GM_addStyle(`
-                * {
-                    cursor: none !important;
-                }
-            `);
-        }
-
+        // Listen for mouse movement
         document.addEventListener('mousemove', showCursor);
+        
+        // Initial state
         timeout = setTimeout(hideCursor, 2000);
     }
 
@@ -118,10 +128,10 @@
         }
     `);
 
-    // Zoom to 125% for 4K displays
+    // Zoom to 150% for 4K displays
     GM_addStyle(`
         body {
-            zoom: 125%;
+            zoom: 150%;
         }
     `);
 
@@ -176,9 +186,9 @@
     // Wait for page load and then perform actions
     window.addEventListener('load', async function() {
         replaceSlashWithDotInH5();
-        addCloseButton(); // Add the close button
-        initializeCursorVisibility(); // Initialize cursor visibility control
-        reloadPagePeriodically(); // Start periodic page reload (every 5 minutes)
+        addCloseButton(); 
+        initializeCursorVisibility(); 
+        reloadPagePeriodically(); 
     });
 
 })();
