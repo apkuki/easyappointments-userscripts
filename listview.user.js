@@ -99,17 +99,17 @@
         // 1. Fast AJAX Refresh Loop (Runs every 60 seconds)
         setInterval(function() {
             const reloadBtn = document.getElementById('reload-appointments');
-            
+
             if (reloadBtn) {
-                // Dispatch complete native pointer interaction chain
-                const mousedownEvent = new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window });
-                const mouseupEvent = new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window });
-                const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true, view: window });
+                // FIXED: Removed 'view: window' to prevent TypeError in sandbox environment
+                const mousedownEvent = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
+                const mouseupEvent = new MouseEvent('mouseup', { bubbles: true, cancelable: true });
+                const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
 
                 reloadBtn.dispatchEvent(mousedownEvent);
                 reloadBtn.dispatchEvent(mouseupEvent);
                 reloadBtn.dispatchEvent(clickEvent);
-                
+
                 // Mark AJAX attempt as active
                 lastSuccessfulAjaxTime = Date.now();
 
@@ -212,8 +212,8 @@
     // Wait for page load and then perform actions
     window.addEventListener('load', async function() {
         replaceSlashWithDotInH5();
-        addCloseButton(); 
-        initializeCursorVisibility(); 
+        addCloseButton();
+        initializeCursorVisibility();
         setupSmartRefresh(); // Active dual-refresh fallback engine
     });
 
