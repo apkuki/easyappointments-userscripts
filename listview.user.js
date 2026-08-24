@@ -92,6 +92,7 @@
         setTimeout(function() {
             location.reload();
         }, 300000); // 300000 ms = 5 minutes
+    }
 
     // Hide elements with specified IDs
     hideElementById('header');
