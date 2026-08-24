@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Uncluttered Easyappointment List View
 // @namespace    http://tampermonkey.net/
-// @version      1.0.1
-// @description  Reloads the page every 5 minutes, hides header and controls, shows X button for Easyappointment List View.
+// @version      1.1.0
+// @description  Auto-reloads calendar data every 60 seconds via internal app reload, hides header and controls, shows X button for Easyappointment List View.
 // @author       Andreas Kundert
 // @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/listview.user.js
 // @updateURL    https://github.com/apkuki/easyappointments-userscripts/raw/main/listview.user.js
@@ -60,31 +60,6 @@
         document.body.appendChild(closeButton);
     }
 
-    // Function to add a timestamp display showing last reload time
-    function addReloadTimestamp() {
-        const timestamp = document.createElement('div');
-        const now = new Date();
-        const timeString = now.toLocaleTimeString('de-CH');
-        
-        timestamp.textContent = `Geladen: ${timeString}`;
-        timestamp.style.position = 'fixed';
-        timestamp.style.bottom = '10px';
-        timestamp.style.right = '10px';
-        timestamp.style.zIndex = '1000';
-        timestamp.style.backgroundColor = 'lightgrey';
-        timestamp.style.color = 'black';
-        timestamp.style.padding = '5px 10px';
-        timestamp.style.fontSize = '12px';
-        timestamp.style.borderRadius = '3px';
-        document.body.appendChild(timestamp);
-        
-        // Fade out after 10 seconds
-        setTimeout(() => {
-            timestamp.style.transition = 'opacity 2s';
-            timestamp.style.opacity = '0';
-        }, 10000);
-    }
-
     // Function to hide the cursor and show it only on mouse movement
     function initializeCursorVisibility() {
         let timeout;
@@ -112,11 +87,17 @@
         timeout = setTimeout(hideCursor, 2000);
     }
 
-    // Function to hard reload the page every 5 minutes
-    function reloadPagePeriodically() {
-        setTimeout(function() {
-            location.reload();
-        }, 300000); // 300000 ms = 5 minutes
+    // Function to trigger internal app reload every 60 seconds
+    function reloadCalendarPeriodically() {
+        setInterval(function() {
+            const reloadButton = document.getElementById('reload-appointments');
+            if (reloadButton) {
+                reloadButton.click();
+            } else {
+                console.warn('Reload button not found, falling back to full page reload');
+                location.reload();
+            }
+        }, 60000); // 60000 ms = 60 seconds
     }
 
     // Hide elements with specified IDs
@@ -195,9 +176,8 @@
     window.addEventListener('load', async function() {
         replaceSlashWithDotInH5();
         addCloseButton(); // Add the close button
-        addReloadTimestamp(); // Show reload timestamp
         initializeCursorVisibility(); // Initialize cursor visibility control
-        reloadPagePeriodically(); // Start periodic page reload (every 5 minutes)
+        reloadCalendarPeriodically(); // Start periodic calendar reload (every 60 seconds)
     });
 
 })();
