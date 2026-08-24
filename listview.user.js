@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Uncluttered Easyappointment List View
 // @namespace    http://tampermonkey.net
-// @version      1.4.0
+// @version      1.4.2
 // @description  Fast 60s AJAX refresh with an automatic 5-minute full page reload safety fallback if the refresh button is missing.
 // @author       Andreas Kundert
-// @downloadURL  https://github.com
-// @updateURL    https://github.com
-// @match        https://weltklassezuerich.ch
+// @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/listview.user.js
+// @updateURL    https://github.com/apkuki/easyappointments-userscripts/raw/main/listview.user.js
+// @match        https://physio.weltklassezuerich.ch/index.php/calendar?view=list
 // @grant        GM_addStyle
 // ==/UserScript==
 
@@ -116,7 +116,7 @@
                 // Format text shortly after data loaded into DOM
                 setTimeout(replaceSlashWithDotInH5, 1500);
             }
-        }, 60000); // 60000 ms = 60 seconds
+        }, 60000); // 60 seconds
 
         // 2. Hard Fallback Loop (Checks every 10 seconds, reloads after 5 minutes of no AJAX)
         setInterval(function() {
