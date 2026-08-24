@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Uncluttered Easyappointment List View
 // @namespace    http://tampermonkey.net/
-// @version      1.1.1
-// @description  Auto-reloads calendar data every 60 seconds via internal app reload, hides header and controls, shows X button for Easyappointment List View.
+// @version      1.1.2
+// @description  Auto-reloads calendar page every 60 seconds via page reload, hides header and controls, shows X button for Easyappointment List View.
 // @author       Andreas Kundert
 // @downloadURL  https://github.com/apkuki/easyappointments-userscripts/raw/main/listview.user.js
 // @updateURL    https://github.com/apkuki/easyappointments-userscripts/raw/main/listview.user.js
@@ -87,18 +87,11 @@
         timeout = setTimeout(hideCursor, 2000);
     }
 
-    // Function to trigger internal app reload every 60 seconds
-    function reloadCalendarPeriodically() {
-        setInterval(function() {
-            const reloadButton = document.getElementById('reload-appointments');
-            if (reloadButton) {
-                reloadButton.click();
-            } else {
-                console.warn('Reload button not found, falling back to full page reload');
-                location.reload();
-            }
-        }, 60000); // 60000 ms = 60 seconds
-    }
+    // Function to hard reload the page every 5 minutes
+    function reloadPagePeriodically() {
+        setTimeout(function() {
+            location.reload();
+        }, 300000); // 300000 ms = 5 minutes
 
     // Hide elements with specified IDs
     hideElementById('header');
@@ -184,7 +177,7 @@
         replaceSlashWithDotInH5();
         addCloseButton(); // Add the close button
         initializeCursorVisibility(); // Initialize cursor visibility control
-        reloadCalendarPeriodically(); // Start periodic calendar reload (every 60 seconds)
+        reloadPagePeriodically(); // Start periodic page reload (every 5 minutes)
     });
 
 })();
